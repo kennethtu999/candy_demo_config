@@ -1,0 +1,12 @@
+version: "2"
+volumes:
+  data-nexus:
+    driver: "local"
+services:
+  jenkins:
+    image: "sonatype/nexus3:3.3.1"
+    ports:
+      - "10083:8081"
+    restart: "always"
+    volumes:
+      - "data-nexus:/nexus-data"

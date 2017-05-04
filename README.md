@@ -17,26 +17,26 @@
 1. install CentOS
 1. [install Docker](https://store.docker.com/editions/community/docker-ce-server-centos)
 1. install docker-compose
-```
+```shell
 sudo yum -y install epel-release
 sudo yum -y install python-pip
 sudo pip install docker-compose
 ```
 
-1. install other tools
-```
+1. install utility
+```shell
 yum -y install wget git
 ```
 
-1. auto start docker service on boot
-```
+1. start docker service at boot
+```shell
 sudo systemctl enable docker
 ```
 
 
 ## Install DevOps software
 ### Gitlab (Version Control)
-```
+```shell
 mkdir gitlab
 cd gitlab
 wget https://raw.githubusercontent.com/sameersbn/docker-gitlab/master/docker-compose.yml
@@ -52,7 +52,7 @@ docker-compose up
 #### config and add testing projects
 1. browser to http://192.168.99.102:10080
   - set a password for the root user accoun
-1. add following projects using **Repo by URL** and set access permission as public
+1. add following projects using **Repo by URL** and set **Visibility Level** public
   - https://github.com/kennethtu999/candy_demo_config.git
   - https://github.com/kennethtu999/candy_demo_java_war.git
 
@@ -75,7 +75,7 @@ docker-compose up
 
 
 ### SonarQube (Code Quality)
-```
+```shell
 mkdir nexus
 cd nexus
 docker-compose up
@@ -90,7 +90,7 @@ docker-compose up
 
 
 ### nexus (artifact repository)
-```
+```shell
 mkdir nexus
 cd nexus
 docker-compose up

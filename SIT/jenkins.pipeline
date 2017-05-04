@@ -1,0 +1,20 @@
+node() {
+  stage "載入設定"
+	  git url: 'http://devops@localhost:10080/devops/candy_demo_java_war.git'
+
+	stage "程式掃描"
+		build 'SIT_CodeScan'
+
+  stage "編譯, 單元測試, 程式構建"
+    build job: 'SIT_Release', parameters: [string(name: 'goal', value: 'clean test package spring-boot:repackage')]
+
+  stage "上傳構建儲存庫"
+    build job: 'SIT_Release', parameters: [string(name: 'goal', value: 'deploy -Dmaven.test.skip=true -Dsnapshot-repository-path=http://127.0.0.1:10083/nexus/content/repositories/SIT/')]
+
+	stage "部署測試環境"
+	  ansiblePlaybook credentialsId: 'f6a348b7-4bfc-423a-b411-a362b1793346', installation: 'Ansible2', inventory: 'SIT/hosts', playbook: 'SIT/deploy.yml', sudo: true,  extras: '-v'
+
+  stage "整合測試"
+    build job: 'SIT_IntegrationTest', parameters: [string(name: 'goal', value: 'clean test -Dtest=pagecode.pib.TestingFirefoxTest -Ddebug=true')]
+
+}
